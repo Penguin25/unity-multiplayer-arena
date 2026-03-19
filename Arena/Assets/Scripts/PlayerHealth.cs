@@ -48,8 +48,4 @@ public class PlayerHealth : MonoBehaviour
         health = maxHealth;
         healthSlider.value = 1f;
     }
-    void Update()
-    {
-        
-    }
 }

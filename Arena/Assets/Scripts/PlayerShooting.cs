@@ -5,15 +5,8 @@ using UnityEngine;
 
 public class PlayerShooting : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     public GameObject bulletPrefab;
-    public float bulletSpeed = 50f;
+    public float bulletSpeed = 35f;
     void Update()
     {
         if (Input.GetButtonDown("Fire1"))

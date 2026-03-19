@@ -4,13 +4,6 @@ using UnityEngine;
 
 public class TurretShooting : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     public GameObject bulletPrefab;
     public float bulletSpeed = 30f;
     public float fireRate = 2f;
