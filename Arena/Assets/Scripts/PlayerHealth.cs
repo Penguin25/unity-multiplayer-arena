@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -39,7 +37,7 @@ public class PlayerHealth : MonoBehaviour
             Cursor.visible = true;
             Time.timeScale = 0f;
             GetComponent<PlayerMovement>().enabled = false;
-            GetComponent<PlayerShooting>().enabled = false;
+            GetComponent<PlayerThrowing>().enabled = false;
             StartCoroutine(RespawnAfterDelay(5f));
         }
     }

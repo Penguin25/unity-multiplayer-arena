@@ -7,6 +7,15 @@ public class Snowball : MonoBehaviour
 
     void Start()
     {
+        if (!GetComponent<Rigidbody>().isKinematic)
+        {
+            Destroy(gameObject, lifetime);
+        }
+
+    }
+
+    public void Launch()
+    {
         Destroy(gameObject, lifetime);
     }
 

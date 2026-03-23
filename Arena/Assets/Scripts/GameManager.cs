@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,7 +12,7 @@ public class GameManager : MonoBehaviour
         PlayerHealth ph = player.GetComponent<PlayerHealth>();
         ph.ResetHealth();
         player.GetComponent<PlayerMovement>().enabled = true;
-        player.GetComponent<PlayerShooting>().enabled = true;
+        player.GetComponent<PlayerThrowing>().enabled = true;
         Camera.main.GetComponent<CameraFollow>().enabled = true;
 
     }
