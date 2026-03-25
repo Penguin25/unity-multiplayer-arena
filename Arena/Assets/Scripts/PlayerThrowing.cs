@@ -19,6 +19,7 @@ public class PlayerThrowing : MonoBehaviour
     [Header("Trajectory")]
     [SerializeField] private LineRenderer trajectoryLine;
     [SerializeField] private GameObject landingMarker;
+    [SerializeField] private LayerMask trajectoryLayerMask;
     public int linePoints = 30;
     public float timeBetweenPoints = 0.05f;
 
@@ -138,7 +139,7 @@ public class PlayerThrowing : MonoBehaviour
               Vector3 prevPoint = trajectoryLine.GetPosition(i - 1);
               Vector3 dir = point - prevPoint;
 
-              if (Physics.Raycast(prevPoint, dir.normalized, out RaycastHit hit, dir.magnitude))
+              if (Physics.Raycast(prevPoint, dir.normalized, out RaycastHit hit, dir.magnitude, trajectoryLayerMask))
               {
                   trajectoryLine.positionCount = i + 1;
                   trajectoryLine.SetPosition(i, hit.point);
