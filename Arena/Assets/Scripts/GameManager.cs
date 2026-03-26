@@ -5,6 +5,11 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private Transform[] spawnPoints;
     [SerializeField] private Transform player;
+    void Start()
+    {
+        int index = Random.Range(0, spawnPoints.Length);
+        player.position = spawnPoints[index].position;
+    }
     public void Respawn()
     {
         int index = UnityEngine.Random.Range(0, spawnPoints.Length);

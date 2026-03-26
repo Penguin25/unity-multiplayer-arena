@@ -4,8 +4,11 @@ public class PlayerMovement : MonoBehaviour
 {
     public float speed = 12f;
     public float jumpForce = 7f;
+    private float fallMultiplier = 2.5f;
     private Rigidbody rb;
     private bool isGrounded;
+    private bool jumpPressed;
+    private bool wasInAir;
     public LayerMask groundMask;
     void Start()
     {
@@ -19,11 +22,29 @@ public class PlayerMovement : MonoBehaviour
         Vector3 move = transform.right * h + transform.forward * v;
         Vector3 velocity = move * speed;
         velocity.y = rb.velocity.y;
+        if (isGrounded && !jumpPressed && velocity.y > 0)
+        {
+            velocity.y = 0;
+        }
         rb.velocity = velocity;
+        if (rb.velocity.y < 0)
+        {
+            rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+        }
         isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.3f, groundMask);
+        if (!isGrounded)
+        {
+            wasInAir = true;
+        }
+        if (isGrounded && wasInAir)
+        {
+            jumpPressed = false;
+            wasInAir = false;
+        }
         if (isGrounded && Input.GetButtonDown("Jump"))
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            jumpPressed = true;
         }
     }
 }

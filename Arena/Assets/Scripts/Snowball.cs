@@ -14,6 +14,11 @@ public class Snowball : MonoBehaviour
 
     }
 
+    public void SetDamage(float dmg)
+    {
+        damage = dmg;
+    }
+
     public void Launch()
     {
         Destroy(gameObject, lifetime);

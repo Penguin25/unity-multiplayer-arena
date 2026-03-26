@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerThrowing : MonoBehaviour
 {
@@ -26,6 +27,21 @@ public class PlayerThrowing : MonoBehaviour
     [Header("Quick Throw")]
     public float quickThrowForce = 15f;
     public float quickSnowballScale = 0.2f;
+
+    [Header("Cooldowns")]
+    public float quickThrowCooldown = 1f;
+    public float superThrowCooldown = 12f;
+    private float quickThrowTimer = 0f;
+    private float superThrowTimer = 0f;
+
+    [Header("Cooldown UI")]
+    [SerializeField] private Image quickCooldownImage;
+    [SerializeField] private Image superCooldownImage;
+
+    [Header("Damage")]
+    public float baseDamage = 10f;
+    public float damagePerSecond = 10f;
+
     private float chargeTimer = 0f;
     private bool isChargingQuick = false;
     private bool isChargingSuper = false;
@@ -38,8 +54,15 @@ public class PlayerThrowing : MonoBehaviour
 
     void Update()
   {
+      quickThrowTimer -= Time.deltaTime;
+      superThrowTimer -= Time.deltaTime;
+
+      // обновляем UI кулдаунов
+      quickCooldownImage.fillAmount = quickThrowTimer > 0 ? quickThrowTimer / quickThrowCooldown : 0f;
+      superCooldownImage.fillAmount = superThrowTimer > 0 ? superThrowTimer / superThrowCooldown : 0f;
+
       // === FIRE1 — быстрый бросок ===
-      if (Input.GetButtonDown("Fire1") && !isChargingSuper)
+      if (Input.GetButtonDown("Fire1") && !isChargingSuper && quickThrowTimer <= 0)
       {
           isChargingQuick = true;
           SpawnChargingSnowball(quickSnowballScale);
@@ -54,14 +77,15 @@ public class PlayerThrowing : MonoBehaviour
 
       if (Input.GetButtonUp("Fire1") && isChargingQuick)
       {
-          ThrowWithForce(quickThrowForce, 0f);
+          ThrowWithForce(quickThrowForce, 0f, baseDamage);
           isChargingQuick = false;
+          quickThrowTimer = quickThrowCooldown;
           trajectoryLine.positionCount = 0;
           landingMarker.SetActive(false);
       }
 
       // === FIRE2 — усиленный бросок ===
-      if (Input.GetButtonDown("Fire2") && !isChargingQuick)
+      if (Input.GetButtonDown("Fire2") && !isChargingQuick && superThrowTimer <= 0)
       {
           isChargingSuper = true;
           chargeTimer = 0f;
@@ -84,8 +108,10 @@ public class PlayerThrowing : MonoBehaviour
       {
           float chargePercent = Mathf.Clamp01(chargeTimer / chargeTime);
           float force = Mathf.Lerp(minThrowForce, maxThrowForce, chargePercent);
-          ThrowWithForce(force, chargePercent);
+          float damage = baseDamage + damagePerSecond * Mathf.Min(chargeTimer, chargeTime);
+          ThrowWithForce(force, chargePercent, damage);
           isChargingSuper = false;
+          superThrowTimer = superThrowCooldown;
           trajectoryLine.positionCount = 0;
           landingMarker.SetActive(false);
       }
@@ -97,7 +123,7 @@ public class PlayerThrowing : MonoBehaviour
       chargingSnowball.GetComponent<Rigidbody>().isKinematic = true;
       chargingSnowball.GetComponent<Collider>().enabled = false;
   }
-  void ThrowWithForce(float force, float chargePercent)
+  void ThrowWithForce(float force, float chargePercent, float damage)
   {
       Transform cam = Camera.main.transform;
       Vector3 direction = cam.forward;
@@ -110,7 +136,9 @@ public class PlayerThrowing : MonoBehaviour
 
       rb.useGravity = true;
       rb.AddForce(direction * force, ForceMode.Impulse);
-      chargingSnowball.GetComponent<Snowball>().Launch();
+      Snowball snowball = chargingSnowball.GetComponent<Snowball>();
+      snowball.SetDamage(damage);
+      snowball.Launch();
 
       chargingSnowball = null;
   }
