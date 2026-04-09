@@ -4,19 +4,17 @@ using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public float health;
-    public float maxHealth = 100f;
+    [SerializeField] private float health;
+    [SerializeField] private float maxHealth = 100f;
+    [SerializeField] private Slider healthSlider;
+    [SerializeField] private GameObject deathPanel;
+    [SerializeField] private GameManager gameManager;
     void Start()
     {
 
         health = maxHealth;
     }
 
-    // Update is called once per frame
-    [SerializeField] private Slider healthSlider;
-    [SerializeField] private GameObject deathPanel;
-    [SerializeField] private GameManager gameManager;
     IEnumerator RespawnAfterDelay(float delay)
     {
         yield return new WaitForSecondsRealtime(delay);

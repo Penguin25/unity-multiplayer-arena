@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float speed = 12f;
-    public float jumpForce = 7f;
+    [SerializeField] private float speed = 12f;
+    [SerializeField] private float jumpForce = 7f;
     private float fallMultiplier = 2.5f;
     private Rigidbody rb;
     private bool isGrounded;
     private bool jumpPressed;
     private bool wasInAir;
-    public LayerMask groundMask;
+    [SerializeField] private LayerMask groundMask;
     void Start()
     {
         rb = GetComponent<Rigidbody>();

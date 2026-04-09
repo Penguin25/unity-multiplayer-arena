@@ -4,33 +4,34 @@ using UnityEngine.UI;
 public class PlayerThrowing : MonoBehaviour
 {
     [Header("Snowball")]
-    public GameObject snowballPrefab;
+    [SerializeField] private GameObject snowballPrefab;
 
     [Header("Throw Settings")]
-    public float minThrowForce = 10f;
-    public float maxThrowForce = 30f;
-    public float chargeTime = 3f;
-    public float throwUpwardAngle = 15f;
+    [SerializeField] private float minThrowForce = 10f;
+    [SerializeField] private float maxThrowForce = 30f;
+    [SerializeField] private float chargeTime = 3f;
+    [SerializeField] private float throwUpwardAngle = 15f;
+
     [Header("Charge Visual")]
-    public Transform snowballSpawnPoint;
-    public float minScale = 0.2f;
-    public float maxScale = 1f;
+    [SerializeField] private Transform snowballSpawnPoint;
+    [SerializeField] private float minScale = 0.2f;
+    [SerializeField] private float maxScale = 1f;
     private GameObject chargingSnowball;
 
     [Header("Trajectory")]
     [SerializeField] private LineRenderer trajectoryLine;
     [SerializeField] private GameObject landingMarker;
     [SerializeField] private LayerMask trajectoryLayerMask;
-    public int linePoints = 30;
-    public float timeBetweenPoints = 0.05f;
+    [SerializeField] private int linePoints = 30;
+    [SerializeField] private float timeBetweenPoints = 0.05f;
 
     [Header("Quick Throw")]
-    public float quickThrowForce = 15f;
-    public float quickSnowballScale = 0.2f;
+    [SerializeField] private float quickThrowForce = 15f;
+    [SerializeField] private float quickSnowballScale = 0.2f;
 
     [Header("Cooldowns")]
-    public float quickThrowCooldown = 1f;
-    public float superThrowCooldown = 12f;
+    [SerializeField] private float quickThrowCooldown = 1f;
+    [SerializeField] private float superThrowCooldown = 12f;
     private float quickThrowTimer = 0f;
     private float superThrowTimer = 0f;
 
@@ -39,8 +40,8 @@ public class PlayerThrowing : MonoBehaviour
     [SerializeField] private Image superCooldownImage;
 
     [Header("Damage")]
-    public float baseDamage = 10f;
-    public float damagePerSecond = 10f;
+    [SerializeField] private float baseDamage = 10f;
+    [SerializeField] private float damagePerSecond = 10f;
 
     private float chargeTimer = 0f;
     private bool isChargingQuick = false;
