@@ -17,7 +17,8 @@ public class CameraFollow : MonoBehaviour
     private float yaw = 0f;
     private float pitch = 0f;
     void Update()
-    {     
+    {
+        if (target == null) return;     
         yaw += Input.GetAxis("Mouse X") * sensitivity;
         pitch -= Input.GetAxis("Mouse Y")* sensitivity;
         pitch = Mathf.Clamp(pitch, -80f, 60f);

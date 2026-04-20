@@ -4,13 +4,11 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private Transform[] spawnPoints;
-    [SerializeField] private Transform player;
+    private Transform player;
     private int deathCount = 0;
-    void Start()
+    public void RegisterPlayer(Transform playerTransform)
     {
-        Debug.Log("Respawn points: " + spawnPoints.Length);
-        int index = Random.Range(0, spawnPoints.Length);
-        player.position = spawnPoints[index].position;
+        player = playerTransform;
     }
     public void Respawn()
     {

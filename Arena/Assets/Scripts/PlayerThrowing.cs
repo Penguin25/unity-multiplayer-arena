@@ -49,12 +49,33 @@ public class PlayerThrowing : MonoBehaviour
 
     void Start()
     {
+        landingMarker = GameObject.Find("LandingMarker");
+        trajectoryLine = GetComponent<LineRenderer>();
+        quickCooldownImage = GameObject.Find("Quick").GetComponent<Image>();
+        superCooldownImage = GameObject.Find("Charge").GetComponent<Image>();
         trajectoryLine.useWorldSpace = true;
         landingMarker.SetActive(false);
     }
 
+    void OnDisable()
+    {
+        isChargingQuick = false;
+        isChargingSuper = false;
+        chargeTimer = 0f;
+        
+        if (trajectoryLine != null) trajectoryLine.positionCount = 0;
+        
+        if (landingMarker != null) landingMarker.SetActive(false);
+
+        if (chargingSnowball != null)
+        {
+            Destroy(chargingSnowball);
+            chargingSnowball = null;
+        }
+    }
+
     void Update()
-  {
+    {
       quickThrowTimer -= Time.deltaTime;
       superThrowTimer -= Time.deltaTime;
 
